@@ -145,3 +145,4 @@ const visFuncList = [
   draw3,
 ];
 scroller(visFuncList)();
+}
