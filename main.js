@@ -47,6 +47,10 @@ function clean(visType) {
     lineChart.unshow();
     console.log("clean line chart");
   }
+
+  if (visType !== 'isVis4') {
+	svg.selectAll(".vis4").attr("opacity", 0); 
+  }
 }
 
 
@@ -92,6 +96,26 @@ async function draw3() {
   lineChart.drawChart(dates, data).show();
 }
 
+function draw4() {
+	clean('isVis4');
+  
+	const svg = d3.select("#visbox").select("svg");
+  
+	if (!svg.select(".vis4").empty()) {
+	  svg.select(".vis4").attr("opacity", 1);
+	  return;
+	}
+	
+	svg.append('rect')
+	  .attr("class", "vis4")
+	  .attr("x", 10)
+	  .attr("y", 20)
+	  .attr("width", "300")
+	  .attr("height", "300")
+	  .attr('fill', 'yellow');
+  
+  }
+
 
 /*
   scroller에서 
@@ -102,5 +126,6 @@ const visFuncList = [
   draw1,
   draw2,
   draw3,
+  draw4
 ];
 scroller(visFuncList)();

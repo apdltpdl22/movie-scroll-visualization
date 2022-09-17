@@ -7,7 +7,9 @@ export function scroller(visFuncList){
     function execute() {
         // 3. 브라우저 크기가 변경되거나, 스크롤 할 때마다 감지하기
         // [start]
-
+        d3.select(window)
+            .on('scroll.scroller', showCurrentVis)
+            .on('resize.scroller', setSectionPositions);
         // [end]
 
         setSectionPositions();
@@ -24,7 +26,13 @@ export function scroller(visFuncList){
 
         // 1. .step 위치 파악하기
         // [start]
-
+        d3.selectAll('.step').each(function(d, i) {
+            const top = this.getBoundingClientRect().top;
+            if (i === 0) {
+                startPos = top;
+            }
+            sectionPositions.push(top - startPos);
+        });
         // [end]
     }
 
@@ -33,7 +41,8 @@ export function scroller(visFuncList){
 
         // 2. 현재 위치 알아내기
         // [start]
-
+        let sectionIndex = d3.bisect(sectionPositions, pos);
+        sectionIndex = Math.min(d3.selectAll(".step").size()-1, sectionIndex);
         // [end]
     
         if (currentIndex !== sectionIndex){
